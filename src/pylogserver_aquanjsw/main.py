@@ -1,9 +1,3 @@
-"""
-TODO
----
-- New cmd arg: --format, default: '[%(asctime)s] [%(name)s] [%(levelname)s] %(message)s'
-"""
-
 import argparse
 import logging
 import pickle
@@ -45,11 +39,18 @@ def main():
     parser = argparse.ArgumentParser(description='Log server')
     parser.add_argument('port', type=int)
     parser.add_argument('-H', '--hostname', type=str, default='localhost')
+    parser.add_argument(
+        '-f',
+        '--format',
+        type=str,
+        default='[%(asctime)s] [%(name)s] [%(levelname)s] %(message)s',
+        help='Log format',
+    )
     args = parser.parse_args()
 
     logging.basicConfig(
         level=logging.DEBUG,
-        format='[%(asctime)s] [%(name)s] [%(levelname)s] %(message)s',
+        format=args.format,
     )
 
     server = socketserver.TCPServer(
