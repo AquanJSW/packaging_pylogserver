@@ -3,6 +3,7 @@ import logging
 import pickle
 import socketserver
 import struct
+from importlib.metadata import version
 
 
 class LogRecordStreamRequestHandler(socketserver.StreamRequestHandler):
@@ -40,6 +41,9 @@ class LogRecordStreamRequestHandler(socketserver.StreamRequestHandler):
 
 def main():
     parser = argparse.ArgumentParser(description='Log server')
+    parser.add_argument(
+        '-v', '--version', action='version', version=version('pylogserver-aquanjsw')
+    )
     parser.add_argument('port', type=int)
     parser.add_argument('-H', '--hostname', type=str, default='localhost')
     parser.add_argument(
@@ -64,3 +68,7 @@ def main():
         server.serve_forever()
     except KeyboardInterrupt:
         server.shutdown()
+
+
+if __name__ == '__main__':
+    main()
